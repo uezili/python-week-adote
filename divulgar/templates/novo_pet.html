@@ -19,8 +19,6 @@
             <div class="col-md-2 bg-side sidebar">
                 <h2>ADO.TE</h2>
                 <hr>
-
-
             </div>
 
             <div class="col-md">
@@ -31,7 +29,7 @@
                             <hr>
                         </div>
                         <div class="body-box">
-                            <form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+                            <form action="{% url 'novo_pet' %}" method="POST" enctype='multipart/form-data'>{% csrf_token %}
                                 {% if messages %}
                                 <br>
                                 {% for message in messages %}
@@ -67,17 +65,21 @@
                                                 <br>
                                                 <span>Telefone para contato:</span>
                                                 <input type="text" placeholder="Digite o seu telefone..."
-                                                    name="telefone" class="form-control">
+                                                     name="telefone" class="form-control">
                                                 <br>
                                                 <span>Tags:</span>
                                                 <select name="tags" multiple class="form-select">
-
+                                                   {% for tag in tags %}
+                                                    <option value="{{tag.id}}">{{tag}}</option>
+                                                   {% endfor %}
                                                 </select>
                                                 <br>
                                             </span>Raça:</span>
 
                                         <select name="raca" class="form-select">
-
+                                            {% for raca in racas %}
+                                            <option value="{{raca.id}}">{{raca}}</option>
+                                           {% endfor %}
                                         </select>
 
                                         <input type="submit" value="ENVIAR" class="btn-custom-primary">
