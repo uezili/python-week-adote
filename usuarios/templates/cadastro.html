@@ -17,17 +17,22 @@
 				<div class="col-md-5 bg-side">
 					<div class="header">
 						<img
-							src="{% static 'usuarios/css/cadastro.css' %}"
+							src="{% static 'usuarios/img/logo_adote.png' %}"
 							width="9%"
 						/><span class="font-logo">ADO.TE</span>
 					</div>
 
 					<div class="body-form">
+						{% for message in messages %}
+							<div class="alert {{ message.tags }}">
+								{{message}}
+							</div>
+						{% endfor %}
 						<h2>Cadastre-se</h2>
 						<p>Seu cadastro salva vidas.</p>
 						<hr />
-						<form action="" method="POST">
-							<span>Nome:</span>
+						<form action="{% url 'cadastro' %}" method="POST">
+							{% csrf_token %} <span>Nome:</span>
 							<input
 								type="text"
 								class="form-control"
@@ -76,7 +81,7 @@
 					<div class="side-logo">
 						<img
 							class="logo-margin-top"
-							src="{% static 'usuarios/css/cadastro.css' %}"
+							src="{% static 'usuarios/img/logo_adote.png' %}"
 							width="20%"
 						/>
 						<h1>ADO.TE</h1>
