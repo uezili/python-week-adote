@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.messages import constants
 from .models import Tag, Raca, Pet
 
 # Create your views here.
@@ -34,3 +36,28 @@ def novo_pet(request):
     )
 
     pet.save()
+
+    for tag_id in tags:
+        tag = Tag.objects.get(id=tag_id)
+        pet.tags.add(tag)
+
+    pet.save()
+    tags = Tag.objects.all()
+    racas = Raca.objects.all()
+    messages.add_message(request, constants.SUCCESS, 'Novo pet cadastrado')
+    return render(request, 'novo_pet.html', {'tags': tags, 'racas': racas})
+
+
+@login_required
+def seus_pets(request):
+    if request.method == "GET":
+        pets = Pet.objects.filter(usuario=request.user)
+        return render(request, 'seus_pets.html', {'pets': pets})
+
+
+def remover_pet(request, id):
+    pet = Pet.objects, get(id=id)
+    pet.delete()
+
+    messages.add_message(request, constants.SUCCESS,
+                         "Pet removido com sucesso!")
