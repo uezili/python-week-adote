@@ -21,19 +21,20 @@ class Tag(models.Model):
 
 
 class Pet(models.Model):
-
     choices_status = (('P', 'Para adoção'),
                       ('A', 'Adotado'))
+
     usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    foto = models.ImageField(upload_to="foto_pets")
+    foto = models.ImageField(upload_to="fotos_pets")
     nome = models.CharField(max_length=100)
-    descrição = models.TextField()
-    estado = models.CharField(max_length=100)
-    cidade = models.CharField(max_length=100)
-    telefone = models.CharField(max_length=14)
-    tag = models.ManyToManyField(Tag)
+    descricao = models.TextField()
+    estado = models.CharField(max_length=50)
+    cidade = models.CharField(max_length=50)
+    telefone = models.CharField(max_length=50)
+    tags = models.ManyToManyField(Tag)
     raca = models.ForeignKey(Raca, on_delete=models.DO_NOTHING)
-    status = models.CharField(max_length=1, choices=choices_status)
+    status = models.CharField(
+        max_length=1, choices=choices_status, default='P')
 
     def __str__(self):
         return self.nome
