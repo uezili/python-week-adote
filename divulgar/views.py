@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
 from .models import Tag, Raca, Pet
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -42,10 +43,12 @@ def novo_pet(request):
         pet.tags.add(tag)
 
     pet.save()
-    tags = Tag.objects.all()
-    racas = Raca.objects.all()
-    messages.add_message(request, constants.SUCCESS, 'Novo pet cadastrado')
-    return render(request, 'novo_pet.html', {'tags': tags, 'racas': racas})
+    return redirect('/divulgar/seus_pets')
+
+    # tags = Tag.objects.all()
+    # racas = Raca.objects.all()
+    # messages.add_message(request, constants.SUCCESS, 'Novo pet cadastrado')
+    # return render(request, 'novo_pet.html', {'tags': tags, 'racas': racas})
 
 
 @login_required
@@ -56,8 +59,13 @@ def seus_pets(request):
 
 
 def remover_pet(request, id):
-    pet = Pet.objects, get(id=id)
+    pet = Pet.objects.get(id=id)
     pet.delete()
+
+    if not pet.usuario == request.user:
+        messages.add_message(request, constants.ERROR, 'Este pet não é seu!')
+        return redirect('/divulgar/seus_pets')
 
     messages.add_message(request, constants.SUCCESS,
                          "Pet removido com sucesso!")
+    return redirect('/divulgar/seus_pets')
