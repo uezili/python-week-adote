@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from .models import Tag, Raca, Pet
 from django.shortcuts import redirect
+from adotar.models import PedidoAdocao
 
 # Create your views here.
 
@@ -75,3 +76,10 @@ def ver_pet(request, id):
     if request.method == "GET":
         pet = Pet.objects.get(id=id)
         return render(request, 'ver_pet.html', {'pet': pet})
+
+
+def ver_pedido_adocao(request):
+    if request.method == "GET":
+        pedidos = PedidoAdocao.objects.filter(
+            usuario=request.user).filter(status="AG")
+        return render(request, 'ver_pedido_adocao.html', {'pedidos': pedidos})
