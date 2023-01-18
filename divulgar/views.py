@@ -92,7 +92,8 @@ def api_adocoes_por_raca(request):
     racas = Raca.objects.all()
     qtd_adocoes = []
     for raca in racas:
-        adocoes = PedidoAdocao.objects.filter(pet__raca=raca)filter(status="AP").count()
+        adocoes = PedidoAdocao.objects.filter(
+            pet__raca=raca).filter(status="AP").count()
         qtd_adocoes.append(adocoes)
 
     racas = [raca.raca for raca in racas]
